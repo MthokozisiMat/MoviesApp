@@ -1,0 +1,27 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Characters";
+}
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Movie Name</th>
+        <th>Actor Name</th>
+        <th>Character Name</th>
+        <th>Action</th>
+    </tr>
+    @for (int i = 0; i < Model.Rows.Count; i++)
+    {
+        <tr>
+            <td>@Model.Rows[i][3]</td>
+            <td>@Model.Rows[i][4]</td>
+            <td>@Model.Rows[i][2]</td>
+            <td>
+                <a href="@Url.Action("Edit", "Character", new {@MovieID = @Model.Rows[i][0], @ActorID = @Model.Rows[i][1], @CharacterName = @Model.Rows[i][2]})">Edit</a>
+                <a href="@Url.Action("Delete", "Character", new {@MovieID = @Model.Rows[i][0], @ActorID = @Model.Rows[i][1], @CharacterName = @Model.Rows[i][2]})">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<a href="@Url.Action("Create", "Character")">Add Character</a>

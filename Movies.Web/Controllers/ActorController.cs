@@ -1,26 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Movies.Data.Services;
-using Microsoft.Extensions.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using Movies.Data.Models;
+using Movies.Data.Services;
+using System.Data;
 
 namespace Movies.Web.Controllers
 {
-    public class MovieController : Controller
+    public class ActorController : Controller
     {
-        public MovieController(IConfiguration configuration)
+        public ActorController(IConfiguration configuration)
         {
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
-        MovieService movieService = new MovieService();
+        ActorService actorService = new ActorService();
         // GET: MovieController
         public ActionResult Index(DataTable table)
         {
             string conStr = this.Configuration.GetConnectionString("MoviesDB");
-            movieService.displayMovies(conStr, table);
+            actorService.display(conStr, table);
             return View(table);
         }
 
@@ -33,35 +31,35 @@ namespace Movies.Web.Controllers
         // GET: MovieController/Create
         public ActionResult Create()
         {
-            return View(new Movie());
+            return View(new Actor());
         }
 
         // POST: MovieController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Movie movie)
+        public ActionResult Create(Actor actor)
         {
             string conStr = this.Configuration.GetConnectionString("MoviesDB");
-            movieService.Create(conStr, movie);
+            actorService.Create(conStr, actor);
             return RedirectToAction("Index");
         }
 
         // GET: MovieController/Edit/5
         [HttpGet]
-        public ActionResult Edit(int id, Movie movie)
+        public ActionResult Edit(int id, Actor actor)
         {
             string conStr = this.Configuration.GetConnectionString("MoviesDB");
-            movieService.Edit(conStr,id, movie);
-            return View(movie);
+            actorService.Edit(conStr, id, actor);
+            return View(actor);
         }
 
         // POST: MovieController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Movie movie)
+        public ActionResult Edit(Actor actor)
         {
             string conStr = this.Configuration.GetConnectionString("MoviesDB");
-            movieService.Edit(conStr, movie);
+            actorService.Edit(conStr, actor);
             return RedirectToAction(nameof(Index));
         }
 
@@ -69,7 +67,7 @@ namespace Movies.Web.Controllers
         public ActionResult Delete(int id)
         {
             string conStr = this.Configuration.GetConnectionString("MoviesDB");
-            movieService.Delete(conStr, id);
+            actorService.Delete(conStr, id);
             return RedirectToAction(nameof(Index));
         }
     }
